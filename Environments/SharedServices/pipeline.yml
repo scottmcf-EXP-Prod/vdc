@@ -12,19 +12,19 @@ stages:
   jobs:
   - job: SetupValidationResourceGroup
     pool: 
-      name: 'vdc-self-hosted'
+      name: 'devops-vdc-self-hosted'
     steps:
     - task: AzurePowerShell@4
       displayName: "Setup Validation Resource Group"
       inputs:
-        azureSubscription: 'vdc2-hub'
+        azureSubscription: '695ea3a8-2c97-434b-aa6e-1949c48e501a'
         ScriptType: 'FilePath'
         ScriptPath: 'Orchestration/OrchestrationService/ValidationResourceGroupSetup.ps1'
         ScriptArguments: '-ResourceGroupName vdc-validation-rg -SetupResourceGroup'
         azurePowerShellVersion: 'LatestVersion'
   - job: StorageAccounts
     pool:
-      name: 'vdc-self-hosted'
+      name: 'devops-vdc-self-hosted'
     dependsOn: SetupValidationResourceGroup
     steps:
     - task: PowerShell@2
@@ -40,7 +40,7 @@ stages:
     - task: AzurePowerShell@4
       displayName: "ARM Validation - Diagnostic Storage Account"
       inputs:
-        azureSubscription: 'vdc2-hub'
+        azureSubscription: '695ea3a8-2c97-434b-aa6e-1949c48e501a'
         ScriptType: 'FilePath'
         ScriptPath: 'Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1'
         ScriptArguments: '-DefinitionPath "Environments/SharedServices/definition.json" -ModuleConfigurationName "DiagnosticStorageAccount" -Validate'
